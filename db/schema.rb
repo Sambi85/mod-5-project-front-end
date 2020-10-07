@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_06_232114) do
+ActiveRecord::Schema.define(version: 2020_10_07_141424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,11 +25,11 @@ ActiveRecord::Schema.define(version: 2020_10_06_232114) do
   end
 
   create_table "follows", force: :cascade do |t|
-    t.bigint "leader_id"
-    t.bigint "follower_id"
     t.string "date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "leader_id"
+    t.bigint "follower_id"
   end
 
   create_table "likes", force: :cascade do |t|

@@ -1,8 +1,48 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+require 'pexels'
+require 'dotenv'
+Dotenv.load
+require 'pry'
+
+# ENV['PEXELS_API_KEY']
+# console.log(REACT_APP_API_KEY)
+
+client = Pexels::Client.new(ENV['PEXELS_API_KEY'])
+binding.pry
+ 
+User.destroy_all
+Post.destroy_all    
+Comment.destroy_all
+Reply.destroy_all
+Like.destroy_all
+
+client.photos.search('Chicken', per_page: 5).photos.each do |photo|
+    user = User.create(username: Faker::GreekPhilosophers.name , password:"123", quote: Faker::GreekPhilosophers.quote , avatar: photo.src.values[3])
+end
+
+
+client.photos.search('Bugs', per_page: 5).photos.each do |photo|
+   post = Post.create(img: photo.src.values[2], description: Faker::Lorem.sentence, date: Time.now)
+end
+
+client.photos.search('Seeds', per_page: 5).photos.each do |photo|
+    post = Post.create(img: photo.src.values[2], description: Faker::Lorem.sentence, date: Time.now)
+ end
+
+ client.photos.search('Corn', per_page: 5).photos.each do |photo|
+    post = Post.create(img: photo.src.values[2], description: Faker::Lorem.sentence, date: Time.now)
+ end
+
+5.times {
+    Comment.create(user_id: User.all.sample.id, post_id: Post.all.sample.id, description: Faker::Lorem.sentence, date: Time.now)
+}
+
+5.times {
+    Like.create(user_id: User.all.sample.id, post_id: Post.all.sample.id, counter: Faker::Number.number(digits: 2), date: Time.now)
+}
+
+5.times {
+    Reply.create(user_id: User.all.sample.id, comment_id: Comment.all.sample.id, description: Faker::Lorem.sentence, date: Time.now)
+}
+
 
