@@ -18,7 +18,19 @@ class CommentsController < ApplicationController
     comment = Comment.create(comment_params)
     render json: comment
   end
-  
+
+  def update
+    comment = Comment.find(params[:id])
+      comment.update(user_params)
+      render :json => comment, serialzer: UserSerializer
+  end
+
+  def delete
+    comment = Comment.find(params[:id])
+      comment.destory
+      render json:{}
+  end 
+    
   private
 
   def comment_params

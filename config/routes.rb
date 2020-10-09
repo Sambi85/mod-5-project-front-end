@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+resources :users
+resources :posts
+resources :replies
+resources :likes
+resources :comments
+resources :follows
+
+  
+  
   # get 'follows/index'
   # get 'follows/show'
   # get 'replies/index'

@@ -10,14 +10,22 @@ class FollowsController < ApplicationController
     render json: like
   end
 
-  def new
-    follow = Follow.new
-  end
-
   def create
     follow = Follow.create(follow_params)
     render json: follow
   end
+
+  def update
+    follow = Follow.find(params[:id])
+      follow.update(user_params)
+      render :json => follow, serialzer: UserSerializer
+  end
+
+  def delete
+    follow = Follow.find(params[:id])
+      follow.destory
+      render json:{}
+  end 
   
   private
 
