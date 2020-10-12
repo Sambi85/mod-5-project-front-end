@@ -5,7 +5,14 @@ import ProfileCard from "../components/cards/ProfileCard.js"
 class Profile extends React.Component {
 
 postIterator = () => {
-    return this.props.posts.map(element => <ProfileCard key={element.id} post={element} user={this.props.user} patchHandler={this.props.patchHandler}/>)
+    return this.props.posts.map(element => 
+    <ProfileCard key={element.id} 
+        post={element} 
+        likes={this.props.likes} 
+        user={this.props.user} 
+        patchHandler={this.props.patchHandler} 
+        likePostHandler={this.props.likePostHandler} 
+        likeDestroyHandler={this.props.likeDestroyHandler}/>)
 }
     
     render() {

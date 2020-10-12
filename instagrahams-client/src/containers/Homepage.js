@@ -7,7 +7,14 @@ class Homepage extends React.Component {
         return (
             <>
             <div className="follow-container">
-               <FollowContainer user={this.props.user} users={this.props.users} posts={this.props.posts}/>
+               <FollowContainer 
+                user={this.props.user} 
+                users={this.props.users}
+                likes={this.props.likes} 
+                follows={this.props.follows} 
+                posts={this.props.posts}
+                likePostHandler={this.props.likePostHandler}
+                likeDestroyHandler={this.props.likeDestroyHandler}/>
             </div>
            
             <div className="suggestion-container">

@@ -5,15 +5,12 @@ import FollowingCard from "../components/cards/FollowingCard.js"
 class FollowContainer extends React.Component {
 
 iterateFollowers = () => {
-
     let filteredArray = this.props.user.followers.map(element => <FollowerCard key={element.id} data={element}/>);
 
-    if (filteredArray.length > 0) {       
-        
+    if (filteredArray.length > 0) {               
         return filteredArray
         
     } else {
-        
         return " You currently have no followers, but don't worry I think you're awesome !!! "
     }
 }
@@ -24,7 +21,16 @@ iterateFollowing = () => {
     
     if (followingArray.length > 0) {       
         
-        return followingArray.map(element => <FollowingCard key={element.id} data={element}/>)
+        return followingArray.map(element => 
+            <FollowingCard 
+                key={element.id} 
+                data={element}
+                user={this.props.user}
+                likes={this.props.likes} 
+                follows={this.props.follows}
+                posts={this.props.posts}
+                likePostHandler={this.props.likePostHandler}
+                likeDestroyHandler={this.props.likeDestroyHandler}/>)
     
     } else {
     
@@ -40,7 +46,7 @@ iterateFollowing = () => {
                 {this.iterateFollowers()}
             </div>
             <div className="following-div">
-            <h1>Following User's Posts</h1>
+            <h1>User's Posts you are following</h1>
                 {this.iterateFollowing()}
             </div>
             </>

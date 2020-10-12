@@ -2,8 +2,40 @@ import React from 'react';
 import CommentForm from "../forms/CommentForm.js"
 
 class FollowingCard extends React.Component {
+
+    state = {
+        likeButton: false
+    }
+
+    likeButtonText = (event) => {
+        
+        if (this.state.likeButton === false) {
+            return "Like"
+                        
+        } else if (this.state.likeButton === true) {
+            return "Unlike"                    
+        }
+    }
+                
+    likeHandler = () => {
+                    
+            if (this.state.likeButton === false) {
+                this.props.likePostHandler(this.props.data.id)                                
+                this.setState({ likeButton: !this.state.likeButton})
+            
+            } else if (this.state.likeButton === true) {
+                let matchingLikes = this.props.likes.filter(element => element.post.id === this.props.data.id)
+                let userLike = matchingLikes.filter(element => element.user.id === this.props.user.id)
+                    
+            this.props.likeDestroyHandler(userLike)
+                this.setState({ 
+                    likeButton: !this.state.likeButton
+            })
+        }    
+    }
     
     render() {
+        console.log(this.props.data.id)
         
         return (
             <div className="photo-card">
@@ -25,10 +57,8 @@ class FollowingCard extends React.Component {
                 </span>
             </div>
             <div className="card-buttons">
-                <button>like</button>
+            <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
                 <button>comment</button>
-                <button>save</button>
-                <button>follow</button>
             </div>
             <div className="date-div">
                 {this.props.data.date}
