@@ -19,7 +19,7 @@ const Header = () => {
               <NavLink to="/">Home</NavLink>
             </div>
             <div>
-              <NavLink to="/dm">Direct Messages</NavLink>
+              {/* <NavLink to="/dm">Direct Messages</NavLink> */}
             </div>
             <div>
               <NavLink to="/nav">Navigation</NavLink>

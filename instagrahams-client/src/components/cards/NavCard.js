@@ -1,5 +1,4 @@
 import React from 'react';
-import CommentForm from "../forms/CommentForm.js"
 import { withRouter } from "react-router-dom"
 
 class NavCard extends React.Component {
@@ -96,13 +95,11 @@ class NavCard extends React.Component {
                 
                 <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
                 <button onClick={this.followHandler}>{this.followButtonText()}</button>
-                <button>comment</button>
             </div>
             <div className="date-div">
                 {this.props.post.date}
             </div>
             <div className="comments-div">
-                <CommentForm/>
             </div>
 
         </div>

@@ -12,7 +12,8 @@ postIterator = () => {
         user={this.props.user} 
         patchHandler={this.props.patchHandler} 
         likePostHandler={this.props.likePostHandler} 
-        likeDestroyHandler={this.props.likeDestroyHandler}/>)
+        likeDestroyHandler={this.props.likeDestroyHandler}
+        targetPostHandler={this.props.targetPostHandler}/>)
 }
     
     render() {

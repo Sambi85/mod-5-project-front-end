@@ -58,7 +58,6 @@ class FollowingCard extends React.Component {
             </div>
             <div className="card-buttons">
             <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
-                <button>comment</button>
             </div>
             <div className="date-div">
                 {this.props.data.date}

@@ -1,5 +1,4 @@
 import React from 'react';
-import CommentForm from "../forms/CommentForm.js"
 import { withRouter } from "react-router-dom"
 
 class ProfileCard extends React.Component {
@@ -11,6 +10,7 @@ class ProfileCard extends React.Component {
     clickListener = (event) => {
        
         let photoId = this.props.post.id
+        this.props.targetPostHandler(this.props.post)
         this.props.history.push(`/profile/${photoId}`)
     }
     
@@ -85,7 +85,6 @@ class ProfileCard extends React.Component {
             </div>
             <div className="card-buttons">
                 <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
-                <button>comment</button>
                 <button onClick={this.editHandler}>Update Post</button>
                 <button onClick={this.postDestroyer}>Delete Post</button>
             </div>
@@ -93,7 +92,6 @@ class ProfileCard extends React.Component {
                 {this.props.post.date}
             </div>
             <div className="comments-div">
-                <CommentForm/>
             </div>
 
         </div>
