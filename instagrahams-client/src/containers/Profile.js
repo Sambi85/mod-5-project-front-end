@@ -1,6 +1,7 @@
 import React from 'react';
 import Dashboard from "../components/Dashboard.js"
 import ProfileCard from "../components/cards/ProfileCard.js"
+import CommentForm from "../components/forms/CommentForm.js"
 
 class Profile extends React.Component {
 
@@ -23,7 +24,7 @@ postIterator = () => {
             <div className="container">
                 <Dashboard user={this.props.user}/>
             </div>
-            <div>
+            <div className="container">
                 {this.postIterator()}
             </div>
             </>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom"
 
 class CommentForm extends React.Component {
 
@@ -59,4 +60,4 @@ submitHandler = (event) => {
 
 }
 
-export default CommentForm
+export default withRouter(CommentForm)

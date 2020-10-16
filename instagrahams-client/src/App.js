@@ -11,6 +11,7 @@ import PostForm from "./components/forms/PostForm.js";
 import PatchForm from "./components/forms/PatchForm.js";
 import CommentForm from "./components/forms/CommentForm.js";
 import ReplyForm from "./components/forms/ReplyForm.js"
+import Login  from "./components/Login.js"
 
 class App extends React.Component {
 
@@ -243,9 +244,12 @@ replyDestroyHandler = (replyObj) => {
   render() {
     
   return (
+    <>
     <div className="App">
-      <Header/>
        <Switch>
+        <Header/>
+         <Route exact path="/" render={()=> <Login/>}/>
+
          <Route exact path="/profile/:id" render={() => 
            <PostContainer
            comments={this.state.comments}
@@ -261,13 +265,14 @@ replyDestroyHandler = (replyObj) => {
            replyDestroyHandler={this.replyDestroyHandler}
            />}/>
 
-          <Route exact path="/" render={() => 
+          <Route exact path="/home" render={() => 
           <HomePage 
           follows={this.state.follows}
           followPostHandler={this.followPostHandler}
           followDestroyHandler={this.followDestroyHandler}
           likePostHandler={this.likePostHandler}
           likeDestroyHandler={this.likeDestroyHandler}
+          targetPostHandler={this.targetPostHandler}
           likes={this.state.likes} 
           posts={this.state.posts}
           targetPostHandler={this.targetPostHandler}
@@ -303,6 +308,9 @@ replyDestroyHandler = (replyObj) => {
             <ReplyForm targetComment={this.state.targetComment}
                         replyPostHandler={this.replyPostHandler}
             />}/>
+          <Route exact path="post/:id/comment" render={()=>  
+            <CommentForm 
+              targetPost={this.state.targetPost} />}/>
           
           <Route exact path="/settings" render={() => 
             <Settings 
@@ -317,15 +325,13 @@ replyDestroyHandler = (replyObj) => {
             current_user={this.state.current_user} 
             patchId={this.state.postPatch}/>}/>
           
-          <Route exact path="/commentform" render={()=>  
-            <CommentForm 
-              targetPost={this.state.targetPost} />}/>
 
             {/* <Route exact path="/login" render={}/> */}
           {/* <Route exact path="/dm" render={}/> */}
     
       </Switch>        
     </div>
+    </>
     );
   }
 }

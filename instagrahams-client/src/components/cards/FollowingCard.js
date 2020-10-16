@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import CommentForm from "../forms/CommentForm.js"
 
 class FollowingCard extends React.Component {
@@ -33,6 +34,13 @@ class FollowingCard extends React.Component {
             })
         }    
     }
+
+    clickListener = (event) => {
+       
+        let photoId = this.props.data.id
+        this.props.targetPostHandler(this.props.data)
+        this.props.history.push(`/profile/${photoId}`)
+    }
     
     render() {
         console.log(this.props.data.id)
@@ -40,7 +48,7 @@ class FollowingCard extends React.Component {
         return (
             <div className="photo-card">
             <div className="photo-div">
-                <img src={this.props.data.img} alt=''/>
+                <img onClick={this.clickListener} src={this.props.data.img} alt=''/>
             </div>
             <div className="description-div">
                 <p>{this.props.data.description}</p>
@@ -71,4 +79,4 @@ class FollowingCard extends React.Component {
     }
 }
 
-export default FollowingCard
+export default withRouter(FollowingCard)

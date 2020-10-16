@@ -4,34 +4,21 @@ import Search from './Search.js'
 
 const Header = () => {
   return (
-    <div className="navbar">
-       
-       <div className="title"> 
-           <h1>Instagrahams</h1>
-        </div>
-        
-        <div className="search">
-            <Search/>
-        </div>
-
-          <div className="links">
-            <div>
-              <NavLink to="/">Home</NavLink>
+    <nav className="header-div">        
+            <div className="search-div">
+              <Search/>
             </div>
-            <div>
+            <div className="instagrahams"> 
+              <img className="logo" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="" width="75px" />
+            </div>
+            <div className="icons-div">
+              <NavLink to="/" style={{"padding":"5px"}}><img src="images/Home.png" width="25px" /></NavLink>
+              <NavLink to="/nav" style={{"padding":"5px"}}><img src="images/Navigate.png" width="25px" /></NavLink>
+              <NavLink to="/profile" style={{"padding":"5px"}}><img src="images/Profile.png" width="25px" /></NavLink>
+              <NavLink to="/settings" style={{"padding":"5px"}}><img src="images/Settings.png" width="25px" /></NavLink>
               {/* <NavLink to="/dm">Direct Messages</NavLink> */}
             </div>
-            <div>
-              <NavLink to="/nav">Navigation</NavLink>
-            </div>
-            <div>
-              <NavLink to="/profile">Profile</NavLink>
-            </div>
-            <div>
-              <NavLink to="/settings">Settings</NavLink>
-            </div>
-          </div>
-    </div>
+    </nav>
   );
 };
 

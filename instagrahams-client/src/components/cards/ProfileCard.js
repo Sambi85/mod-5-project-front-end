@@ -66,7 +66,7 @@ class ProfileCard extends React.Component {
         
         return (
         <div className="photo">
-            <div className="photo">
+            <div className="profile-photo">
                 <img onClick={this.clickListener} src={this.props.post.img} alt='' postId={this.props.post.id}/>
             </div>
             <div>
@@ -77,8 +77,6 @@ class ProfileCard extends React.Component {
                 <span>
                     <div>
                         likes: {this.props.user.likes.length}
-                    </div>
-                    <div>
                         comments: {this.props.user.comments.length}
                     </div>
                 </span>

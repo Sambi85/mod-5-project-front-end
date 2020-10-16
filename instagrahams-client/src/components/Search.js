@@ -14,7 +14,7 @@ this.setState({
 
     render() {
         return (
-            <form>
+            <form >
                 <input value={this.state.searchTerm} placeholder="Search" onChange={this.changeHandler}/>
             </form>
         )

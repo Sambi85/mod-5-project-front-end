@@ -67,7 +67,8 @@ class NavCard extends React.Component {
     clickListener = (event) => {
 
        let photoId = this.props.post.id
-       this.props.history.push(`/nav/${photoId}`)
+       this.props.followPostHandler(this.props.post)
+       this.props.history.push(`/profile/${photoId}`)
     }
 
     render() {

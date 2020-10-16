@@ -80,7 +80,7 @@ class CommentCard extends React.Component {
                         <h4>{this.props.comment.user.username}</h4>
                     </div>
                     <div className="comment-avatar">
-                        <img onClick={this.clickHandler}src={this.props.comment.user.avatar} alt="user"/>
+                        <img className="avatar" onClick={this.clickHandler}src={this.props.comment.user.avatar} alt="user"/>
                     </div>
                     <div className="comment-description">
                         <p>{this.props.comment.description}</p>

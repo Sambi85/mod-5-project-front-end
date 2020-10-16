@@ -21,15 +21,11 @@ class ReplyCard extends React.Component {
         
         let replyObj = this.props.reply
         let descriptionObj = this.state.description
-        console.log(replyObj)
-        console.log(descriptionObj)
-
         return this.props.replyUpdateHandler(replyObj, descriptionObj)  
     }
 
     myReplyHandler = (event) => {
         let replyObj = this.props.reply
-        console.log(replyObj)
             return this.props.replyDestroyHandler(replyObj)        
     }
     
@@ -59,7 +55,7 @@ class ReplyCard extends React.Component {
                         <h4>{this.props.reply.user.username}</h4>
                     </div>
                     <div className="comment-avatar">
-                        <img src={this.props.reply.user.avatar} alt="user"/>
+                        <img className="avatar" src={this.props.reply.user.avatar} alt="user"/>
                     </div>
                     <div className="comment-description">
                         <p>{this.props.reply.description}</p>

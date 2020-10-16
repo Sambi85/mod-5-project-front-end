@@ -11,8 +11,8 @@ class Dashboard extends React.Component {
           
         return(
         <div className="dashboard">
-            <div className="avatar">
-                <img onClick={this.clickHandler} src={this.props.user.avatar} alt={this.props.user.username}/>
+            <div className="avatar-div">
+                <img className="avatar" onClick={this.clickHandler} src={this.props.user.avatar} alt={this.props.user.username}/>
             </div>
             <div className="username">
                 <h1>{this.props.user.username}</h1>
@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
             <div className="edit">
                 <button className="edit-button">Edit</button>
             </div>
-            <div className="posts">
+            <div className="posts-div">
                 Posts: {this.props.user.posts.length}
             </div>
             <div className="followers">

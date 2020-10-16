@@ -30,7 +30,9 @@ iterateFollowing = () => {
                 follows={this.props.follows}
                 posts={this.props.posts}
                 likePostHandler={this.props.likePostHandler}
-                likeDestroyHandler={this.props.likeDestroyHandler}/>)
+                likeDestroyHandler={this.props.likeDestroyHandler}
+                targetPostHandler={this.props.targetPostHandler}
+                />)
     
     } else {
     
