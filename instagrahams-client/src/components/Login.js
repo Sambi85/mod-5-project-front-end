@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { Button, Form } from "semantic-ui-react";
+import Logo from '../logo.png'
 
 class Login extends React.Component {
     
@@ -7,10 +9,28 @@ class Login extends React.Component {
         username: '',
         password: ''
     }
-  
+
+    loginFetch = (loginObj) => {
+
+        let options = {
+           method: 'POST',
+           headers: {
+               "Content-Type": "application/json",
+               "Accepts":"application/json"
+           },
+           body: JSON.stringify({
+                username: loginObj.username.value,
+                password: loginObj.password.value
+           }) 
+        }
+        fetch('http://localhost:4000/login', options)
+        .then(response => response.json())
+        .then(loginData => 
+            localStorage.setItem("current_token", loginData.jwt)
+            )      
+    }
+
     changeHandler = (event) => {
-        console.log(event.target.name)
-        console.log(event.target.value)
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -18,9 +38,11 @@ class Login extends React.Component {
 
     submitHandler = (event) => {
         event.preventDefault()
+        this.loginFetch(event.target)
         this.props.history.push("/home")
         this.setState({
-            [event.target.name]: ''
+            username: '',
+            password: ''
         })
     }
 
@@ -28,31 +50,20 @@ class Login extends React.Component {
         return (
             <>
             <div className="login-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px"}} >
-            <h1 className="instagrahams">Instagrahams</h1>
-                <form onSubmit={this.submitHandler}>
-                    <input 
-                    style={{"marginBottom":"5px", "text-align":"center"}} 
-                    type="text" name="username" 
-                    value={this.state.username} 
-                    placeholder="Username" 
-                    onChange={this.changeHandler}/>
-                    <br/>
-                    <input 
-                    style={{"text-align":"center"}} 
-                    type="text" 
-                    name="password" 
-                    value={this.state.password} 
-                    placeholder="Password" 
-                    onChange={this.changeHandler}/>
-                    <br/>
-                    <br/>
-                    <button style={{"color":"white","background-color": "#008CBA","width":"150px","border-radius":"5px"}}> Log in </button>
-                </form>
+            <img className="logo " src={Logo} alt="" width="150px"/>
+                <Form onSubmit={this.submitHandler}>
+                    <Form.Field className="username">
+                        <input type="text" value={this.state.username} name="username" placeholder="Username" onChange={this.changeHandler}/>
+                    </Form.Field>
+                    <Form.Field className="password">
+                        <input type="password" value={this.state.password} name="password" placeholder="Password" onChange={this.changeHandler} />
+                    </Form.Field>
+                        <Button type="submit">Submit</Button>
+                </Form>
             </div>
             </>
             
         )
     }
-
 }
 export default withRouter(Login)

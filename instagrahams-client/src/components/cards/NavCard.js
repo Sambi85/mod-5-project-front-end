@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
+import { Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class NavCard extends React.Component {
 
@@ -67,43 +68,45 @@ class NavCard extends React.Component {
     clickListener = (event) => {
 
        let photoId = this.props.post.id
-       this.props.followPostHandler(this.props.post)
+    //    this.props.followPostHandler(this.props.post)
+        this.props.targetPostHandler(this.props.post)
        this.props.history.push(`/profile/${photoId}`)
     }
 
     render() {
-        // console.log(this.props.post)
         return (
-        <div className="photo">
-            <div className="photo">
-                <img onClick={this.clickListener}src={this.props.post.img} alt=''/>
-            </div>
-            <div>
-                <p>{this.props.post.description}</p>
-            </div>
-            
-            <div>
-                <span>
-                    <div>
-                        likes: {this.props.post.likes.length}
-                    </div>
-                    <div>
-                        comments: {this.props.post.comments.length}
-                    </div>
-                </span>
-            </div>
-            <div className="card-buttons">
-                
-                <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
-                <button onClick={this.followHandler}>{this.followButtonText()}</button>
-            </div>
-            <div className="date-div">
-                {this.props.post.date}
-            </div>
-            <div className="comments-div">
-            </div>
-
-        </div>
+            <Card>
+                <Image onClick={this.clickListener} itemsPerRow={2} color='grey' src={this.props.post.img}  wrapped ui={false}/>
+                    <Card.Content>
+                        <Card.Description>
+                        
+                        <h4>{this.props.post.description}</h4>
+                        </Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                        <a>
+                        <div className="like-div">
+                        <Icon name='heart'/>
+                            likes: {this.props.post.likes.length}
+                        </div>
+                        </a>
+                        <a>
+                        <div className="comment-div">
+                        <Icon name='comment outline'/>
+                            comments: {this.props.post.comments.length}
+                        </div>
+                        </a>
+                        <a>
+                        <div className="date-div">
+                            {this.props.post.date}
+                        </div>
+                        </a>
+                        <a>
+                            <Button onClick={this.likeHandler}>{this.likeButtonText()}</Button>
+                            <Button onClick={this.followHandler}>{this.followButtonText()}</Button>
+                        </a>
+                </Card.Content>
+            </Card>
         )
     }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-import Header from './components/Header.js';
+import HeaderComp from './components/HeaderComp.js';
 import HomePage from "./containers/Homepage.js"
-import Profile from "./containers/Profile.js";
+import Profile from "./components/Profile.js";
 import Nav from "./containers/Nav.js";
 import Settings from "./containers/Settings.js";
 import PostContainer from "./containers/PostContainer.js";
@@ -29,25 +29,33 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-   
-    fetch('http://localhost:4000/users/1').then(response => response.json()).then(userData =>
-    
-    this.setState({ current_user: userData }))
+    const token = localStorage.getItem("current_token")
+    let options = {
+            method: 'GET',
+           headers: {
+            Authorization: `Bearer ${token}`
+           }
+        }
+    if (token) {
 
-    fetch('http://localhost:4000/posts').then(response => response.json()).then(postData =>
+      fetch('http://localhost:4000/profile', options).then(response => response.json()).then(userData =>
+          this.setState({ current_user: userData.user }))
+
+      fetch('http://localhost:4000/posts').then(response => response.json()).then(postData =>
           this.setState({ posts: postData }))
 
-    fetch('http://localhost:4000/follows').then(response => response.json()).then(followData =>
+      fetch('http://localhost:4000/follows').then(response => response.json()).then(followData =>
           this.setState({ follows: followData }))
 
-    fetch('http://localhost:4000/likes').then(response => response.json()).then(likeData =>
+      fetch('http://localhost:4000/likes').then(response => response.json()).then(likeData =>
           this.setState({ likes: likeData }))
     
-    fetch('http://localhost:4000/comments').then(response => response.json()).then(commentData =>
+      fetch('http://localhost:4000/comments').then(response => response.json()).then(commentData =>
           this.setState({ comments: commentData }))
           
-    fetch('http://localhost:4000/replies').then(response => response.json()).then(replyData =>
-          this.setState({ replies: replyData })) 
+      fetch('http://localhost:4000/replies').then(response => response.json()).then(replyData =>
+          this.setState({ replies: replyData }))
+    } 
   }
 
   profilePatchHandler = (patchObj) => {
@@ -57,6 +65,8 @@ class App extends React.Component {
   }
 
   likePostHandler = (postObj) => {
+    console.log("PostObj:",postObj)
+    console.log(this.state.current_user)
         let options = {
         method: "POST",
         headers: {
@@ -64,9 +74,8 @@ class App extends React.Component {
           "Accepts": "application/json"
         },
         body: JSON.stringify({
-        // this.props.current_user
         post_id: postObj,
-        user_id: 1,
+        user_id: this.state.current_user.id,
         counter: 1,
         date: Date(Date.now())
         })
@@ -82,7 +91,7 @@ class App extends React.Component {
 }
 
 likeDestroyHandler = (likeObj) => {
-
+  
   let targetId = likeObj[0].id
   let options = { method: "DELETE" }
   let newArray = [...this.state.likes]
@@ -108,9 +117,8 @@ followPostHandler = (leaderObj) => {
         "Accepts": "application/json"
       },
       body: JSON.stringify({
-      // this.props.current_user
       leader_id: leaderObj.id,
-      follower_id: 1,
+      follower_id: this.state.current_user.id,
       date: Date(Date.now())
       })
     }
@@ -157,8 +165,7 @@ commentUpdateHandler = (commentObj, descriptionObj) => {
       "Accepts": "application/json"
       },
       body: JSON.stringify({
-      // this.props.current_user
-      user_id: 1,
+      user_id: this.state.current_user.id,
       post_id: commentObj.post.id,
       description: descriptionObj,
       date: Date(Date.now())
@@ -207,8 +214,7 @@ replyUpdateHandler = (replyObj, descriptionObj) => {
       "Accepts": "application/json"
       },
       body: JSON.stringify({
-      // this.props.current_user
-        user_id: 1,
+        user_id: this.state.current_user.id,
         comment_id: replyObj.comment.id,
         description: descriptionObj,
         date: Date(Date.now())
@@ -242,13 +248,16 @@ replyDestroyHandler = (replyObj) => {
 }
 
   render() {
+    console.log(this.state.targetPost)
+    console.log(this.state.replies)
     
   return (
     <>
+        <HeaderComp/>
     <div className="App">
        <Switch>
-        <Header/>
-         <Route exact path="/" render={()=> <Login/>}/>
+         <Route exact path="/" render={()=> 
+          <Login/>}/>
 
          <Route exact path="/profile/:id" render={() => 
            <PostContainer
@@ -263,9 +272,25 @@ replyDestroyHandler = (replyObj) => {
            targetCommentHandler={this.targetCommentHandler}
            replyUpdateHandler={this.replyUpdateHandler}
            replyDestroyHandler={this.replyDestroyHandler}
-           />}/>
+           />}/> 
 
-          <Route exact path="/home" render={() => 
+
+         <Route exact path="/profile" render={() => 
+           <Profile
+           comments={this.state.comments}
+           posts={this.state.posts}
+           replies={this.state.replies}
+           user={this.state.current_user}
+           commentUpdateHandler={this.commentUpdateHandler}
+           commentDestroyHandler={this.commentDestroyHandler}
+           targetPost={this.state.targetPost}
+           targetComment={this.state.targetComment}
+           targetCommentHandler={this.targetCommentHandler}
+           replyUpdateHandler={this.replyUpdateHandler}
+           replyDestroyHandler={this.replyDestroyHandler}
+           />}/> 
+
+        <Route exact path="/home" render={() => 
           <HomePage 
           follows={this.state.follows}
           followPostHandler={this.followPostHandler}
@@ -280,16 +305,6 @@ replyDestroyHandler = (replyObj) => {
           users={this.state.users} 
           />}/>
             
-        <Route exact path="/profile" render={() =>         
-          <Profile 
-          likes={this.state.likes} 
-          likePostHandler={this.likePostHandler}
-          likeDestroyHandler={this.likeDestroyHandler}
-          posts={this.state.posts} 
-          patchHandler={this.profilePatchHandler} 
-          targetPostHandler={this.targetPostHandler}
-          user={this.state.current_user}
-            />}/> 
 
           <Route exact path="/nav" render={() => 
             <Nav
@@ -307,10 +322,13 @@ replyDestroyHandler = (replyObj) => {
           <Route exact path="/comment/:id/reply" render={()=> 
             <ReplyForm targetComment={this.state.targetComment}
                         replyPostHandler={this.replyPostHandler}
+                        user={this.state.current_user}
             />}/>
           <Route exact path="post/:id/comment" render={()=>  
             <CommentForm 
-              targetPost={this.state.targetPost} />}/>
+              targetPost={this.state.targetPost}
+              current_user={this.state.current_user}
+               />}/>
           
           <Route exact path="/settings" render={() => 
             <Settings 
@@ -324,9 +342,7 @@ replyDestroyHandler = (replyObj) => {
             <PatchForm 
             current_user={this.state.current_user} 
             patchId={this.state.postPatch}/>}/>
-          
 
-            {/* <Route exact path="/login" render={}/> */}
           {/* <Route exact path="/dm" render={}/> */}
     
       </Switch>        

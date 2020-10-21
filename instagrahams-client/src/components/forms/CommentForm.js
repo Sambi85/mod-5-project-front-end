@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
+import { Button, Form, Icon } from 'semantic-ui-react'
+
 
 class CommentForm extends React.Component {
 
@@ -28,8 +30,7 @@ submitHandler = (event) => {
           "Accepts": "application/json"
         },
         body: JSON.stringify({
-        // this.props.current_user
-        user_id: 1,
+        user_id: this.state.current_user,
         post_id: this.state.targetPost.id,
         description: this.state.comment,
         date: Date(Date.now())
@@ -49,11 +50,12 @@ submitHandler = (event) => {
         
         return (
             <div className="comment-form-div">
-            <form onSubmit={this.submitHandler}>
-            <h1>Leave a Comment</h1>
-                <input name="comment" value={this.state.comment} placeholder="comment here" onChange={this.changeHandler}/>
-                <button>Post</button>
-            </form>
+            <Form onSubmit={this.submitHandler}>
+                <Form.Field>
+                <input name="comment" value={this.state.comment} placeholder="Leave a Comment" onChange={this.changeHandler}/>
+                <Button inverted color='blue'>Post</Button>
+                </Form.Field>
+            </Form>
             </div>
         )
     }

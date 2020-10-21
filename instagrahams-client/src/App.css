@@ -1,9 +1,4 @@
 
-/* .App {
-  text-align: center;
-}  */
-
-
 .avatar {
   border-radius: 50%;
   height: 100px;
@@ -14,46 +9,103 @@
   align-items: center;
   height: 400px;
   width: 255px;
+  position: absolute;
+  top: 150px;
+  left: 300px;
   border: 15px solid lightGrey;
   padding: 10px;
   margin: auto;
   text-align: center;
 }
 
-.header-div {
+/* .header-div { */
   /* grid-template-columns:50px;
   grid-template-rows: 25px; */
-  border: 1px solid lightGrey;
+  /* border: 1px solid lightGrey; */
   /* style={{"float":"left", "marginLeft":"200px"}} */
-  position: fixed;
-  width: 100vw;
-  /* align-items: center; */
+  /* position: fixed; */
+  /* width: 100vw; */
+/* } */
+
+.follow-container{
+  position: relative;
+  top: 30px;
+  left: 80px;
+  margin: auto;
 }
 
-.instagrahams {
-  font-family: 'Euphoria Script', cursive;
-  font-size: 30px;
-  
+.follower-div{
+  position: relative;
+  padding: 10px;
+  margin: auto;
 }
 
-.icons-div{
-  float:right;
-  /* margin-left: 500px; 
-  margin-right: 500px; */
-  
+.following-div{
+  position: relative;
+  padding: 10px;
 }
 
-.search-div {
-  margin-top: 10px;
-  
-  /* background-color:red; */
-
+.nav-card-container {
+  position: relative;
+  top: 10px;
 }
 
-.logo {
-  float: left;
+
+.header-div {
+  position: relative;;
 }
 
-input {
-  /* left: 500px; */
+.dashboard-container {
+  position: relative;
+  top: 15px;
+  left: 100px;
+}
+
+.nav-card-container{
+  position: relative;
+  top: 20px;
+}
+
+.post-header-div{
+
+  position: relative;
+  top: 20px;
+  left: 20px;
+  width: 290px;
+}
+
+.comment-form-div{
+  position: relative;
+  top: 10px;
+  left: 8px;
+  width: 200px;
+}
+
+.post-feed-div{
+  position: relative;
+  top: 50px;
+  left: 20px;
+  width: 280px;
+}
+
+.photo-div{
+  position: relative;
+  top: 5px;
+}
+
+.photo-card{
+  position: relative;
+  top: 50px;
+}
+
+.reply-form-div{
+  align-items: center;
+  height: 500px;
+  width: 555px;
+  position: absolute;
+  top: 150px;
+  left: 300px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
 }

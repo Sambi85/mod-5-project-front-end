@@ -1,4 +1,6 @@
 import React from 'react';
+import { Button, Feed, Form } from 'semantic-ui-react'
+
 
 class ReplyCard extends React.Component {
 
@@ -33,12 +35,12 @@ class ReplyCard extends React.Component {
         if (this.props.user.id === this.props.reply.user.id) {
             return (
                 <div className="my-comment-buttons">
-                    <button onClick={this.myReplyHandler}>Delete</button>  
+                    <Button inverted color='red' onClick={this.myReplyHandler}>Delete</Button>  
                 <div className="update-div">
-                    <form onSubmit={this.submitHandler}>
+                    <Form onSubmit={this.submitHandler}>
                         <input name='description' value={this.state.description} placeholder="description" onChange={this.changeHandler}/>
-                        <button>Update</button>
-                    </form>
+                        <Button>Update</Button>
+                    </Form>
                     </div>
                 </div>
             )
@@ -49,7 +51,7 @@ class ReplyCard extends React.Component {
     
         return (
             <>
-                <div className="comment-div">
+                {/* <div className="comment-div">
                     <h2 style={{"color":"red"}}> ####  User Replies #### </h2>
                     <div className="comment-username">
                         <h4>{this.props.reply.user.username}</h4>
@@ -63,8 +65,25 @@ class ReplyCard extends React.Component {
                     <div className="update-delete-buttons">
                         {this.buttonHandler()}
                     </div>
-                </div>
+                </div> */}       
+                    <Feed>
+                        <Feed.Event>
+                            <Feed.Label>
+                                <img className="avatar" src={this.props.reply.user.avatar} alt="user"/>
+                            </Feed.Label>
+                                <Feed.Content>
+                                    <Feed.Summary>
+                                        <a style={{color:"red"}}>{this.props.reply.user.username}</a> posted a reply
+                                        <Feed.Date>{this.props.reply.date}</Feed.Date><br/>
+                                    </Feed.Summary>
+                                <Feed.Meta>
+                                {this.props.reply.description}
+                            </Feed.Meta>
+                        </Feed.Content>
+                    </Feed.Event>
+                </Feed>
             </>
+
         )
     }
 }

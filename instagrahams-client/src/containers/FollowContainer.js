@@ -1,6 +1,7 @@
 import React from 'react';
 import FollowerCard from "../components/cards/FollowerCard.js"
 import FollowingCard from "../components/cards/FollowingCard.js"
+import { Card } from 'semantic-ui-react'
 
 class FollowContainer extends React.Component {
 
@@ -36,23 +37,26 @@ iterateFollowing = () => {
     
     } else {
     
-        return " whomp whomp, You currently aren't following anyone !!! "
+        return " You currently aren't following anyone !"
     } 
 }
     render() {
-        console.log(this.props.users)
         return ( 
             <>
             <div className="follower-div">
             <h1>Your Followers</h1>
+            <Card.Group itemsPerRow={4}>
                 {this.iterateFollowers()}
+            </Card.Group>
             </div>
+
             <div className="following-div">
-            <h1>User's Posts you are following</h1>
+            <h1>Posts your following</h1>
+            <Card.Group itemsPerRow={4}>
                 {this.iterateFollowing()}
+            </Card.Group>
             </div>
             </>
-
         )
     }
 }

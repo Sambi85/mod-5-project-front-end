@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CommentCard from '../components/cards/CommentCard.js';
-import CommentForm from "../components/forms/CommentForm.js"
+import CommentForm from "../components/forms/CommentForm.js";
+import { Feed, Card, Header, Image } from 'semantic-ui-react';
 
 class PostContainer extends React.Component {
 
@@ -22,24 +23,33 @@ commentsIterator = () => {
 }
 
     render() {
-        
+        console.log(this.props.targetPost)
         return (
             <>
-            <div className="user-div">
-                <h3>User's Post you clicked on !</h3>
-                  <h1><img src={this.props.targetPost.img} alt="user's post"/></h1>
+            <div className="post-header-div">
+            <Header as='h2'>
+                <Image src={this.props.targetPost.user.avatar}  size='small' circular/>
+                {this.props.targetPost.user.username}      
+            </Header>
+            <Card
+                image={this.props.targetPost.img}
+                header= {`Post By: ${this.props.targetPost.user.username}`}
+                meta='This is the Post you clicked on'
+                description={this.props.targetPost.description}
+                size= "large"
+            />
+            <CommentForm targetPost={this.props.targetPost}/>
             </div>
-                <CommentForm targetPost={this.props.targetPost}/>
-            <div className="photo-div">
-        <h3> {`Post By: ${this.props.targetPost.user.username}`}</h3>
-                  <img className="avatar" src={this.props.targetPost.user.avatar} alt="avatar"/>             
+            
+            <div className="post-feed-div">
+                <Feed>
+                    {this.commentsIterator()}
+                </Feed>
             </div>
-
-              <div className="comments-iterator-div">
-                {this.commentsIterator()}
-                
-              </div>
             </>
+
+
+
         )
     }
 }

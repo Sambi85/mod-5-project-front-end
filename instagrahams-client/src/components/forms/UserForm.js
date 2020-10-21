@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-
+import { Button, Form, Segment  } from "semantic-ui-react";
+// import Logo from '../logo.png'
 
 class UserForm extends React.Component {
 
@@ -65,18 +66,37 @@ userDestroyer = (event) => {
 
     render() {
         return (
-        <div className="form-div">
-            <form onSubmit={this.submitHandler}> 
-                 <h2>Name</h2><input name="username" value={this.state.username} placeholder="update username" onChange={this.changeHandler}/>
-                 <h2>Avatar</h2><input name="avatar"value={this.state.avatar} placeholder="update avatar" onChange={this.changeHandler}/>
-                 <h2>Quote</h2><input name="quote" value={this.state.quote} placeholder="update quote" onChange={this.changeHandler}/>
-                <button>submit</button>
-            </form>
-            <div>
-                <h2>Delete account</h2>
-                <button onClick={this.userDestroyer}>Delete</button>
-            </div>
-        </div>
+        // <div className="form-div">
+        //     <form onSubmit={this.submitHandler}> 
+        //          <h2>Name</h2><input name="username" value={this.state.username} placeholder="update username" onChange={this.changeHandler}/>
+        //          <h2>Avatar</h2><input name="avatar"value={this.state.avatar} placeholder="update avatar" onChange={this.changeHandler}/>
+        //          <h2>Quote</h2><input name="quote" value={this.state.quote} placeholder="update quote" onChange={this.changeHandler}/>
+        //         <button>submit</button>
+        //     </form>
+        //     <div>
+        //         <h2>Delete account</h2>
+        //         <button onClick={this.userDestroyer}>Delete</button>
+        //     </div>
+        // </div>
+
+    <div className="login-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px"}} >
+        <Form onSubmit={this.submitHandler}>
+            <Form.Field className="username">
+                <h3>Profile Update</h3>
+                <input type="text" value={this.state.username} name="username" placeholder="Username" onChange={this.changeHandler}/>
+                <input type="text" value={this.state.avatar} name="avatar" placeholder="Avatar" onChange={this.changeHandler}/>
+                <input type="text" value={this.state.quote} name="quote" placeholder="Quote" onChange={this.changeHandler}/>
+            </Form.Field>
+                <Button type="submit" inverted color="blue">Submit</Button>
+                <p>________________________________</p>
+                <h4>Delete Profile</h4>
+                <Button onClick={this.userDestroyer} inverted color='red'>Delete</Button>
+        </Form>
+
+    </div>
+
+
+
         )
     }
 }

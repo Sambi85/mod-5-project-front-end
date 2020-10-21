@@ -1,39 +1,26 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
+import { Icon } from 'semantic-ui-react'
+
 
 class Dashboard extends React.Component {
     
-    clickHandler = (event) => {               
-        
+    clickHandler = (event) => {                     
         this.props.history.push(`/postform`)
     }
+    
     render() {
           
         return(
-        <div className="dashboard">
-            <div className="avatar-div">
-                <img className="avatar" onClick={this.clickHandler} src={this.props.user.avatar} alt={this.props.user.username}/>
-            </div>
-            <div className="username">
-                <h1>{this.props.user.username}</h1>
-            </div>
-            <div className="edit">
-                <button className="edit-button">Edit</button>
-            </div>
-            <div className="posts-div">
-                Posts: {this.props.user.posts.length}
-            </div>
-            <div className="followers">
-               Followers:{this.props.user.followed_users.length}
-            </div>
-            <div className="following">
-                Following: {this.props.user.following_users.length}
-            </div>
-
-            <div className="quote">
-                <p>{this.props.user.quote}</p>
-            </div>
-        </div>   
+                <div className="dasboard-div">
+                    <img onClick={this.clickHandler} className="avatar" size='small' circular src={this.props.user.avatar} avatar />
+                    <span><h1>{this.props.user.username}</h1></span>
+                    <div textAlign='left'><Icon name='comment outline'/> Posts: {this.props.user.posts.length}</div>
+                    <div textAlign='left'><Icon name='users'/> Followers: {this.props.user.followed_users.length}</div>
+                    <div textAlign='left'><Icon name='blind'/>Following: {this.props.user.following_users.length}</div>
+                    <h2>{this.props.user.quote}</h2>
+                </div>
+         
         )
     }
 }

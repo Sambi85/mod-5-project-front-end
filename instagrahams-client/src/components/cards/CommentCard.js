@@ -1,6 +1,7 @@
 import React from 'react';
 import ReplyCard from './ReplyCard.js'
 import { withRouter} from "react-router-dom"
+import { Feed, Button, Form } from 'semantic-ui-react'
 
 class CommentCard extends React.Component {
 
@@ -58,12 +59,13 @@ class CommentCard extends React.Component {
         if (this.props.user.id === this.props.comment.user.id) {
             return (
                 <div className="my-comment-buttons">
-                    <button onClick={this.myCommentHandler}>Delete</button>  
                 <div className="update-div">
-                    <form onSubmit={this.submitHandler}>
-                        <input name='description' value={this.state.description} placeholder="description" onChange={this.changeHandler}/>
-                        <button>Update</button>
-                    </form>
+                    <Form onSubmit={this.submitHandler}>
+                        <Form.Field>
+                        <input name='description' value={this.state.description} placeholder="Update your comment" onChange={this.changeHandler}/>
+                        </Form.Field>
+                        <Button>Update</Button><Button onClick={this.myCommentHandler} inverted color='red'> Delete</Button>  
+                    </Form>
                     </div>
                 </div>
             )
@@ -74,25 +76,23 @@ class CommentCard extends React.Component {
 
         return (
             <>
-                <div className="comment-div">
-                    <h2> User Comment </h2>
-                    <div className="comment-username">
-                        <h4>{this.props.comment.user.username}</h4>
-                    </div>
-                    <div className="comment-avatar">
-                        <img className="avatar" onClick={this.clickHandler}src={this.props.comment.user.avatar} alt="user"/>
-                    </div>
-                    <div className="comment-description">
-                        <p>{this.props.comment.description}</p>
-                    </div>
-                    <div className="update-delete-buttons">
-                        {this.buttonHandler()}
-                    </div>
-                    <div className="replies">
+            <Feed.Event>
+                <Feed.Label onClick={this.clickHandler} image={this.props.comment.user.avatar} />
+                     <Feed.Content>
+                        <Feed.Summary>
+                            <a>{this.props.comment.user.username}</a> posted a Comment
+                            <Feed.Date>{this.props.comment.date}</Feed.Date>
+                        </Feed.Summary>
+                            <Feed.Extra text>
+                                <p>{this.props.comment.description}</p><br/>
+                                    {this.buttonHandler()}
+                            </Feed.Extra>
+                        </Feed.Content>
+                    </Feed.Event>
+
+                    <Feed>
                         {this.repliesIterator()}
-                    </div>
-                            
-                </div>
+                    </Feed>
             </>
         )
     }

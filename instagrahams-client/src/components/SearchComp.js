@@ -1,9 +1,12 @@
 import React from 'react';
+import { Search } from 'semantic-ui-react';
 
-class Search extends React.Component {
+class SearchComp extends React.Component {
 
 state = {
-    searchTerm: ""
+    "loading": false,
+    "results": [],
+    "value": ""
 }
 
 changeHandler = (event) => {
@@ -21,4 +24,4 @@ this.setState({
     }
 }
 
-export default Search
+export default SearchComp

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
+import { Card, Image, Icon, Button, Segment } from 'semantic-ui-react'
 
 class ProfileCard extends React.Component {
 
@@ -65,34 +66,43 @@ class ProfileCard extends React.Component {
     render() {
         
         return (
-        <div className="photo">
-            <div className="profile-photo">
-                <img onClick={this.clickListener} src={this.props.post.img} alt='' postId={this.props.post.id}/>
-            </div>
-            <div>
-                <p>{this.props.post.description}</p>
-            </div>
-            
-            <div>
-                <span>
-                    <div>
-                        likes: {this.props.user.likes.length}
-                        comments: {this.props.user.comments.length}
-                    </div>
-                </span>
-            </div>
-            <div className="card-buttons">
-                <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
-                <button onClick={this.editHandler}>Update Post</button>
-                <button onClick={this.postDestroyer}>Delete Post</button>
-            </div>
-            <div className="date-div">
-                {this.props.post.date}
-            </div>
-            <div className="comments-div">
-            </div>
+    
+            <Card>
+                <Image onClick={this.clickListener} itemsPerRow={2} color='grey' src={this.props.post.img} alt='' postId={this.props.post.id} wrapped ui={false}/>
+                    <Card.Content>
+                        <Card.Description>
+                        
+                        <h4>{this.props.post.description}}</h4>
+                        </Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                        <a>
+                        <div className="like-div">
+                        <Icon name='heart'/>
+                            likes: {this.props.user.likes.length}
+                        </div>
+                        </a>
+                        <a>
+                        <div className="comment-div">
+                        <Icon name='comment outline'/>
+                            comments: {this.props.user.comments.length}
+                        </div>
+                        </a>
+                        <a>
+                        <div className="date-div">
+                        {this.props.post.date}
+                        </div>
+                        </a>
+                        <a>
+                        <div className="card-buttons">
+                        <Button onClick={this.likeHandler}>{this.likeButtonText()}</Button>
+                        <Button onClick={this.editHandler}>Update Post</Button>
+                        <Button inverted color='red' onClick={this.postDestroyer}>Delete</Button>
+                       </div>
+                        </a>
+                </Card.Content>
+            </Card>
 
-        </div>
         )
     }
 }

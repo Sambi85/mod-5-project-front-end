@@ -1,7 +1,7 @@
 import React from 'react';
-import Dashboard from "../components/Dashboard.js"
-import ProfileCard from "../components/cards/ProfileCard.js"
-import CommentForm from "../components/forms/CommentForm.js"
+import Dashboard from "./Dashboard.js"
+import ProfileCard from "./cards/ProfileCard.js"
+import { Card } from 'semantic-ui-react'
 
 class Profile extends React.Component {
 
@@ -21,12 +21,13 @@ postIterator = () => {
         
         return (
             <>
-            <div className="container">
+            <div className="dashboard-container">
                 <Dashboard user={this.props.user}/>
             </div>
-            <div className="container">
+            
+            <Card.Group className="nav-card-container" itemsPerRow={3}>
                 {this.postIterator()}
-            </div>
+            </Card.Group>
             </>
         )
     }

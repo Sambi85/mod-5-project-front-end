@@ -9,9 +9,9 @@ class Settings extends React.Component {
         <div className="options">
         </div>
         <div className="form-container"> 
-        <UserForm current_user={this.props.current_user}/>
+            <UserForm current_user={this.props.current_user}/>
         </div>
-        </  >
+        </>
         )
     }
 }

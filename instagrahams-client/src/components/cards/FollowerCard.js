@@ -1,15 +1,21 @@
 import React from 'react';
+import { Card, Icon, Image } from 'semantic-ui-react'
 
 class FollowerCard extends React.Component {
 
     render() {
-        
         return (
-            <div className="follow-div-card">
-                <h1>### Follower ###</h1>
-                <img className="avatar" src={this.props.data.avatar} alt=""/>
-        <p>{this.props.data.username}</p>
+            <div>
+            <Card className="follow-div-card">
+                <Image src={this.props.data.avatar}  wrapped ui={false} />
+                    <Card.Content>
+                    <Card.Header>{this.props.data.username}</Card.Header>
+                    <Card.Meta>
+                    </Card.Meta>
+                </Card.Content>
+            </Card>
             </div>
+
         )
     }
 }

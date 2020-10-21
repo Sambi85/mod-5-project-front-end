@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
+import { Button, Card, Form, Image } from 'semantic-ui-react'
+
 
 class ReplyForm extends React.Component {
 
@@ -25,7 +27,7 @@ class ReplyForm extends React.Component {
           },
             body: JSON.stringify({
             // this.props.current_user
-            user_id: 1,
+            user_id: this.props.user.id,
             comment_id: this.state.targetComment.id,
             description: this.state.description,
             date: Date(Date.now())
@@ -39,18 +41,33 @@ class ReplyForm extends React.Component {
                 description: ""
             })
         )
+        this.props.history.push(`/nav`)
     }
 
     render() {
         
         return (
-            <div className="reply-form-div">
-            <form onSubmit={this.submitHandler}>
-                <h1>Make a Reply</h1>
-                <input name="description" value={this.state.description} placeholder="reply here" onChange={this.changeHandler}/>
-                <button>Post</button>
-            </form>
-            </div>
+            // <div className="reply-form-div">
+            // <form onSubmit={this.submitHandler}>
+            //     <h1>Make a Reply</h1>
+            //     <input name="description" value={this.state.description} placeholder="reply here" onChange={this.changeHandler}/>
+            //     <button>Post</button>
+            // </form>
+            // </div>
+                <div className="reply-form-div">
+                    <Card>
+                    <Image src={'https://i.pinimg.com/originals/c6/0f/f3/c60ff3ae9de0a29c7a418101514cab15.jpg'}
+                    syle={{width:"100px"}} wrapped ui={false}/>
+                        
+                    <Form onSubmit={this.submitHandler}>
+                        <Form.Field>
+                        <label>Reply to a comment</label>
+                            <input name="description" value={this.state.description} placeholder="reply here" onChange={this.changeHandler}/>
+                        </Form.Field>
+                        <Button type='submit'>Submit</Button>
+                    </Form>
+                    </Card>
+                </div>
         )
     }
 }

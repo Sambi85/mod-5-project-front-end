@@ -1,5 +1,7 @@
 import React from 'react';
 import NavCard from "../components/cards/NavCard.js"
+import { Card } from 'semantic-ui-react'
+
 
 class Profile extends React.Component {
 
@@ -14,14 +16,17 @@ class Profile extends React.Component {
             likePostHandler={this.props.likePostHandler}
             likeDestroyHandler={this.props.likeDestroyHandler}
             followPostHandler={this.props.followPostHandler}
-            followDestroyHandler={this.props.followDestroyHandler}/>)
+            followDestroyHandler={this.props.followDestroyHandler}
+            targetPostHandler={this.props.targetPostHandler}/>)
     }
 
     render() {
         
         return (    
             <>
-            <div className="container">{this.iteratePics()}</div>
+            <Card.Group className="nav-card-container" itemsPerRow={3}>
+                {this.iteratePics()}
+            </Card.Group>
             </>
         )
     }

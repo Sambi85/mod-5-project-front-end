@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import CommentForm from "../forms/CommentForm.js"
+import { Button, Card, Icon, Image } from 'semantic-ui-react'
+
 
 class FollowingCard extends React.Component {
 
@@ -43,38 +45,31 @@ class FollowingCard extends React.Component {
     }
     
     render() {
-        console.log(this.props.data.id)
+        console.log(this.props.user)
         
         return (
-            <div className="photo-card">
-            <div className="photo-div">
-                <img onClick={this.clickListener} src={this.props.data.img} alt=''/>
-            </div>
-            <div className="description-div">
-                <p>{this.props.data.description}</p>
-            </div>
-            
-            <div>
-                <span>
-                    <div>
-                        likes: {this.props.data.likes.length}
-                    </div>
-                    <div>
-                        comments: {this.props.data.comments.length}
-                    </div>
-                </span>
-            </div>
-            <div className="card-buttons">
-            <button onClick={this.likeHandler}>{this.likeButtonText()}</button>
-            </div>
-            <div className="date-div">
-                {this.props.data.date}
-            </div>
-            <div className="comments-div">
-                <CommentForm/>
-            </div>
+            <Card>
+            <Image onClick={this.clickListener} src={this.props.data.img} alt='' wrapped ui={false}/>
+            <Card.Content>
+            <Card.Header>Matthew</Card.Header>
+            <Card.Meta>
+                <span className='date'>{this.props.data.date}</span>
+            </Card.Meta>
+            <Card.Description>
+                {this.props.data.description}
+            </Card.Description>
+                <div>
+                <Icon name='like'/>likes: {this.props.data.likes.length}
+                </div>
+                <div>
+                    <Icon name='comment outline'/>comments: {this.props.data.comments.length}
+                </div>
+                <div className="comments-div">
+                    <CommentForm/>
+                </div>
+            </Card.Content>
+            </Card>
 
-        </div>
         )
     }
 }
