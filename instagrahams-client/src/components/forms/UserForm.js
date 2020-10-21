@@ -78,8 +78,8 @@ userDestroyer = (event) => {
         //         <button onClick={this.userDestroyer}>Delete</button>
         //     </div>
         // </div>
-
-    <div className="login-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px"}} >
+        
+    <div className="login-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px", backgroundColor:"white", opacity:"85%"}} >
         <Form onSubmit={this.submitHandler}>
             <Form.Field className="username">
                 <h3>Profile Update</h3>

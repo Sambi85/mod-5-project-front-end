@@ -100,11 +100,12 @@
 
 .reply-form-div{
   align-items: center;
-  height: 500px;
-  width: 555px;
+  border-radius: 10px;
+  height: auto;
+  width: auto;
   position: absolute;
-  top: 150px;
-  left: 300px;
+  top: 100px;
+  left: 100px;
   padding: 10px;
   margin: auto;
   text-align: center;

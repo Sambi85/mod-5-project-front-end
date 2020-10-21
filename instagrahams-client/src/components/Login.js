@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Form } from "semantic-ui-react";
+import Campfire from "../Campfire.jpg";
 import Logo from '../logo.png'
 
 class Login extends React.Component {
@@ -49,7 +50,12 @@ class Login extends React.Component {
     render() {
         return (
             <>
-            <div className="login-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px"}} >
+            <div style={{ backgroundImage: `url(${Campfire})`, backgroundPosition: 'center',
+  backgroundSize:'cover', backgroundRepeat:'no-repeat', width:'1450px', height: '800px'
+      }}>
+      </div>
+
+            <div className="login-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px", backgroundColor:"white", opacity:"85%"}} >
             <img className="logo " src={Logo} alt="" width="150px"/>
                 <Form onSubmit={this.submitHandler}>
                     <Form.Field className="username">

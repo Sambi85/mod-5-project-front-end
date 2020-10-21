@@ -52,7 +52,7 @@ iterateFollowing = () => {
 
             <div className="following-div">
             <h1>Posts your following</h1>
-            <Card.Group itemsPerRow={4}>
+            <Card.Group itemsPerRow={3}>
                 {this.iterateFollowing()}
             </Card.Group>
             </div>

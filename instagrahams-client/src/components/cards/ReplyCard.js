@@ -33,8 +33,11 @@ class ReplyCard extends React.Component {
     
     buttonHandler = () => {
         if (this.props.user.id === this.props.reply.user.id) {
+
             return (
-                <div className="my-comment-buttons">
+
+               <div className="my-comment-buttons">
+                
                     <Button inverted color='red' onClick={this.myReplyHandler}>Delete</Button>  
                 <div className="update-div">
                     <Form onSubmit={this.submitHandler}>

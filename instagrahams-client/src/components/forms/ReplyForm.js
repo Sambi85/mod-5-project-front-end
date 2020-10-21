@@ -47,18 +47,14 @@ class ReplyForm extends React.Component {
     render() {
         
         return (
-            // <div className="reply-form-div">
-            // <form onSubmit={this.submitHandler}>
-            //     <h1>Make a Reply</h1>
-            //     <input name="description" value={this.state.description} placeholder="reply here" onChange={this.changeHandler}/>
-            //     <button>Post</button>
-            // </form>
-            // </div>
-                <div className="reply-form-div">
-                    <Card>
-                    <Image src={'https://i.pinimg.com/originals/c6/0f/f3/c60ff3ae9de0a29c7a418101514cab15.jpg'}
-                    syle={{width:"100px"}} wrapped ui={false}/>
-                        
+            <>
+            <div style={{ backgroundImage: `url(https://images.unsplash.com/photo-1531951665218-b8b598959072?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80)`, backgroundPosition: 'center',
+            backgroundSize:'cover', backgroundRepeat:'no-repeat', width:'1450px', height: '800px'
+                }}>
+                </div>
+            
+                <div className="reply-form-div" style={{ backgroundColor:"white", opacity:"85%"}}>
+                    <Card>        
                     <Form onSubmit={this.submitHandler}>
                         <Form.Field>
                         <label>Reply to a comment</label>
@@ -68,6 +64,7 @@ class ReplyForm extends React.Component {
                     </Form>
                     </Card>
                 </div>
+                </>
         )
     }
 }
