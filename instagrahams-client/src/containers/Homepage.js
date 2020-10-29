@@ -1,14 +1,15 @@
 import React from 'react';
 import FollowContainer from "./FollowContainer.js"
+import { withRouter } from "react-router-dom"
 
 class Homepage extends React.Component {
     render() {
+    
         return (
             <>
             <div className="follow-container">
                <FollowContainer 
                 user={this.props.user} 
-                users={this.props.users}
                 likes={this.props.likes} 
                 follows={this.props.follows} 
                 posts={this.props.posts}
@@ -27,4 +28,4 @@ class Homepage extends React.Component {
     }
 }
 
-export default Homepage;
+export default withRouter(Homepage);

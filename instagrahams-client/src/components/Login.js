@@ -11,26 +11,6 @@ class Login extends React.Component {
         password: ''
     }
 
-    loginFetch = (loginObj) => {
-
-        let options = {
-           method: 'POST',
-           headers: {
-               "Content-Type": "application/json",
-               "Accepts":"application/json"
-           },
-           body: JSON.stringify({
-                username: loginObj.username.value,
-                password: loginObj.password.value
-           }) 
-        }
-        fetch('http://localhost:4000/login', options)
-        .then(response => response.json())
-        .then(loginData => 
-            localStorage.setItem("current_token", loginData.jwt)
-            )      
-    }
-
     changeHandler = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -39,8 +19,7 @@ class Login extends React.Component {
 
     submitHandler = (event) => {
         event.preventDefault()
-        this.loginFetch(event.target)
-        this.props.history.push("/home")
+        this.props.loginFetch(this.state)
         this.setState({
             username: '',
             password: ''
@@ -50,7 +29,7 @@ class Login extends React.Component {
     render() {
         return (
             <>
-            <div style={{ backgroundImage: `url(${Campfire})`, backgroundPosition: 'center',
+            <div style={{ backgroundImage: `url("https://hdwallsource.com/img/2014/10/awesome-night-wallpaper-28038-28761-hd-wallpapers.jpg")`, backgroundPosition: 'center',
   backgroundSize:'cover', backgroundRepeat:'no-repeat', width:'1450px', height: '800px'
       }}>
       </div>

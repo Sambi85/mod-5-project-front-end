@@ -1,4 +1,3 @@
-
 .avatar {
   border-radius: 50%;
   height: 100px;
@@ -17,15 +16,6 @@
   margin: auto;
   text-align: center;
 }
-
-/* .header-div { */
-  /* grid-template-columns:50px;
-  grid-template-rows: 25px; */
-  /* border: 1px solid lightGrey; */
-  /* style={{"float":"left", "marginLeft":"200px"}} */
-  /* position: fixed; */
-  /* width: 100vw; */
-/* } */
 
 .follow-container{
   position: relative;
@@ -52,7 +42,7 @@
 
 
 .header-div {
-  position: relative;;
+  position: relative;
 }
 
 .dashboard-container {
@@ -99,6 +89,32 @@
 }
 
 .reply-form-div{
+  align-items: center;
+  border-radius: 10px;
+  height: auto;
+  width: auto;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
+}
+
+.patchform-div{
+  align-items: center;
+  border-radius: 10px;
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
+}
+
+.update-comment-form-div{
   align-items: center;
   border-radius: 10px;
   height: auto;

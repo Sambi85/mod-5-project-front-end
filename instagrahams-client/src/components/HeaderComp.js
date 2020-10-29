@@ -13,7 +13,7 @@ class HeaderComp extends React.Component {
     <div className="header-div">
         <Menu>
         
-            <img className="logo " src={Logo} alt="" width="120px"/>
+            <img className="logo " src={Logo} alt="instagrahams" width="120px"/>
           
           <Menu.Item position='center'>
             <Input className='icon' icon='search' placeholder='Search...' />
@@ -23,6 +23,7 @@ class HeaderComp extends React.Component {
             <NavLink to="/nav" style={{"padding":"5px"}}><img src="images/Navigate.png" width="25px" /></NavLink>
             <NavLink to="/profile/" style={{"padding":"5px"}}><img src="images/Profile.png" width="25px" /></NavLink>
             <NavLink to="/settings" style={{"padding":"5px"}}><img src="images/Settings.png" width="25px" /></NavLink>
+            <NavLink to='/' style={{"padding":"5px"}}><img src="images/Logoff.png" width="25px" onClick={this.props.resetHandler} /></NavLink>
             </Menu.Item>
       </Menu>
     </div>

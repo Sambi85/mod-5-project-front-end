@@ -18,7 +18,7 @@ postIterator = () => {
 }
     
     render() {
-        
+        console.log("profile likes:",this.props.likes)
         return (
             <>
             <div className="dashboard-container">

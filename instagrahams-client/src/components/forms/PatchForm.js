@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Form } from "semantic-ui-react";
 
 class PatchForm extends React.Component {
 
@@ -55,13 +56,17 @@ class PatchForm extends React.Component {
     render() {
         return (
             <>
-            <div className="post-form-div">
-                <form onSubmit={this.submitHandler}className="post-form">
-                    <h1> Update your Post </h1>
+             <div style={{ backgroundImage: `url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Saqqara_pyramid_ver_2.jpg/1200px-Saqqara_pyramid_ver_2.jpg")`, backgroundPosition: 'center',
+  backgroundSize:'cover', backgroundRepeat:'no-repeat', width:'1450px', height: '800px'
+      }}>
+      </div>
+      <div className="patchform-div" style={{"border":"1px solid lightGrey","border-radius":"10px","paddingBottom":"20px", backgroundColor:"white", opacity:"85%"}} >
+                <Form onSubmit={this.submitHandler}className="post-form">
+                    <h1> Update Post </h1>
                     <input name="img" value={this.state.img} placeholder="Img Url" onChange={this.changeHandler}/>
-                    <input name="description" value={this.state.description} placeholder="Description"onChange={this.changeHandler}/>
-                    <button>Post</button>    
-                </form>
+                    <input name="description" value={this.state.description} placeholder=" Change Description Here"onChange={this.changeHandler}/>
+                    <Button>Post</Button>    
+                </Form>
             </div>
             </>
         )

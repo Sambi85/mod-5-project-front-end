@@ -5,8 +5,24 @@ import { Card } from 'semantic-ui-react'
 
 class FollowContainer extends React.Component {
 
+    state = {
+        followers: [],
+        leaders: [],
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:4000/users/' + this.props.user.id)
+        .then(response => response.json())
+        .then(userData => {
+            this.setState({
+                followers: userData.followers,
+                leaders: userData.leaders
+            })
+        })
+    }
+
 iterateFollowers = () => {
-    let filteredArray = this.props.user.followers.map(element => <FollowerCard key={element.id} data={element}/>);
+    let filteredArray = this.state.followers.map(element => <FollowerCard key={element.id} data={element}/>);
 
     if (filteredArray.length > 0) {               
         return filteredArray
@@ -17,7 +33,7 @@ iterateFollowers = () => {
 }
 
 iterateFollowing = () => {
-    let leaderIds = this.props.user.leaders.map(element => element.id)
+    let leaderIds = this.state.leaders.map(element => element.id)
     let followingArray = this.props.posts.filter(element => leaderIds.includes(element.user.id)) 
     
     if (followingArray.length > 0) {       
@@ -43,6 +59,8 @@ iterateFollowing = () => {
     render() {
         return ( 
             <>
+            { this.props.user ?  
+            <>
             <div className="follower-div">
             <h1>Your Followers</h1>
             <Card.Group itemsPerRow={4}>
@@ -56,6 +74,8 @@ iterateFollowing = () => {
                 {this.iterateFollowing()}
             </Card.Group>
             </div>
+            </>
+            :null}
             </>
         )
     }

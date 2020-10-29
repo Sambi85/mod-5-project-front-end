@@ -73,7 +73,7 @@ class NavCard extends React.Component {
        this.props.history.push(`/profile/${photoId}`)
     }
 
-    render() {
+    render() {  
         return (
             <Card>
                 <Image onClick={this.clickListener} itemsPerRow={2} color='grey' src={this.props.post.img}  wrapped ui={false}/>

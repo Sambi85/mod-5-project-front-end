@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Feed, Form } from 'semantic-ui-react'
 
-
 class ReplyCard extends React.Component {
 
     state = {
@@ -22,13 +21,16 @@ class ReplyCard extends React.Component {
         })
         
         let replyObj = this.props.reply
-        let descriptionObj = this.state.description
-        return this.props.replyUpdateHandler(replyObj, descriptionObj)  
+        let replyDescriptionObj = this.state.description
+        this.props.replyUpdateHandler(replyObj, replyDescriptionObj)
+        this.setState({
+            description: ""
+        })
     }
 
     myReplyHandler = (event) => {
         let replyObj = this.props.reply
-            return this.props.replyDestroyHandler(replyObj)        
+         this.props.replyDestroyHandler(replyObj)        
     }
     
     buttonHandler = () => {
@@ -38,11 +40,11 @@ class ReplyCard extends React.Component {
 
                <div className="my-comment-buttons">
                 
-                    <Button inverted color='red' onClick={this.myReplyHandler}>Delete</Button>  
+                
                 <div className="update-div">
                     <Form onSubmit={this.submitHandler}>
                         <input name='description' value={this.state.description} placeholder="description" onChange={this.changeHandler}/>
-                        <Button>Update</Button>
+                        <Button>Update</Button><Button inverted color='red' onClick={this.myReplyHandler}>Delete</Button> 
                     </Form>
                     </div>
                 </div>
@@ -53,22 +55,7 @@ class ReplyCard extends React.Component {
     render() {
     
         return (
-            <>
-                {/* <div className="comment-div">
-                    <h2 style={{"color":"red"}}> ####  User Replies #### </h2>
-                    <div className="comment-username">
-                        <h4>{this.props.reply.user.username}</h4>
-                    </div>
-                    <div className="comment-avatar">
-                        <img className="avatar" src={this.props.reply.user.avatar} alt="user"/>
-                    </div>
-                    <div className="comment-description">
-                        <p>{this.props.reply.description}</p>
-                    </div>
-                    <div className="update-delete-buttons">
-                        {this.buttonHandler()}
-                    </div>
-                </div> */}       
+            <>  
                     <Feed>
                         <Feed.Event>
                             <Feed.Label>
@@ -81,12 +68,12 @@ class ReplyCard extends React.Component {
                                     </Feed.Summary>
                                 <Feed.Meta>
                                 {this.props.reply.description}
+                                {this.buttonHandler()}
                             </Feed.Meta>
                         </Feed.Content>
                     </Feed.Event>
                 </Feed>
             </>
-
         )
     }
 }

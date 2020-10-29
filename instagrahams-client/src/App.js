@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import HeaderComp from './components/HeaderComp.js';
 import HomePage from "./containers/Homepage.js"
 import Profile from "./components/Profile.js";
@@ -9,7 +9,6 @@ import Settings from "./containers/Settings.js";
 import PostContainer from "./containers/PostContainer.js";
 import PostForm from "./components/forms/PostForm.js";
 import PatchForm from "./components/forms/PatchForm.js";
-import CommentForm from "./components/forms/CommentForm.js";
 import ReplyForm from "./components/forms/ReplyForm.js"
 import Login  from "./components/Login.js"
 
@@ -27,7 +26,9 @@ class App extends React.Component {
     targetPost: [],
     targetComment: []
   }
-
+  
+  /// COMPONENT DID MOUNT/LOGIN/RESET ------------------------------------------------- ///
+  
   componentDidMount(){
     const token = localStorage.getItem("current_token")
     let options = {
@@ -40,6 +41,7 @@ class App extends React.Component {
 
       fetch('http://localhost:4000/profile', options).then(response => response.json()).then(userData =>
           this.setState({ current_user: userData.user }))
+        } 
 
       fetch('http://localhost:4000/posts').then(response => response.json()).then(postData =>
           this.setState({ posts: postData }))
@@ -55,8 +57,39 @@ class App extends React.Component {
           
       fetch('http://localhost:4000/replies').then(response => response.json()).then(replyData =>
           this.setState({ replies: replyData }))
-    } 
   }
+
+  loginFetch = (loginObj) => {
+
+    let options = {
+       method: 'POST',
+       headers: {
+           "Content-Type": "application/json",
+           "Accepts":"application/json"
+       },
+       body: JSON.stringify({
+            username: loginObj.username,
+            password: loginObj.password
+       }) 
+    }
+    fetch('http://localhost:4000/login', options)
+    .then(response => response.json())
+    .then(loginData => {
+      localStorage.setItem("current_token", loginData.jwt)
+      this.setState({
+        current_user: loginData.user
+      }, () => {this.props.history.push("/home")})
+      })      
+}
+
+  resetHandler = () => {
+    localStorage.removeItem('current_token')
+    this.setState({
+      current_user: null
+    })
+  }
+
+  /// User for PROFILE HANDLER ------------------------------------------------- ///
 
   profilePatchHandler = (patchObj) => {
     this.setState({
@@ -64,9 +97,11 @@ class App extends React.Component {
     })
   }
 
+  /// Likes for POST/DESTROY ------------------------------------------------- ///
+
   likePostHandler = (postObj) => {
     console.log("PostObj:",postObj)
-    console.log(this.state.current_user)
+    console.log("current user id:",this.state.current_user.id)
         let options = {
         method: "POST",
         headers: {
@@ -85,7 +120,7 @@ class App extends React.Component {
     .then(response => response.json())
     .then(likeObj =>
         this.setState({
-          likes: [...this.state.likes, likeObj]
+          likes: [likeObj,...this.state.likes]
       })
     )
 }
@@ -107,6 +142,8 @@ likeDestroyHandler = (likeObj) => {
     })
   )
 }
+
+/// Follows for POST/DESTROY ------------------------------------------------- ///
 
 followPostHandler = (leaderObj) => {
       
@@ -149,14 +186,23 @@ followDestroyHandler = (followObj) => {
   )
 }
 
+/// Posts for POST/PATCH/DESTROY/TARGETPOST ------------------------------------------------- ///
+
 targetPostHandler = (postObj) => {
   this.setState({
     targetPost: postObj
   })
 }
+/// Comments for POST/ UPDATE/ DESTROY/TARGETCOMMENT ------------------------------------------------- ///
+commentStatePostHandler = (commentObj) => {
+  this.setState({
+    comments: [commentObj, ...this.state.comments]
+  })
+}
 
-commentUpdateHandler = (commentObj, descriptionObj) => {
-  
+commentUpdateHandler = (descriptionObj, commentObj) => {
+  console.log("desciption:",descriptionObj)
+  console.log("commentObj:",commentObj.id)
   let targetId = commentObj.id
   let options = { 
     method: "PATCH",
@@ -171,17 +217,22 @@ commentUpdateHandler = (commentObj, descriptionObj) => {
       date: Date(Date.now())
       })
   }
-
+  
   fetch(`http://localhost:4000/comments/${targetId}`, options)
   .then(response => response.json())
-  .then(commentData =>
+  .then(commentData => {
+      
+      let newArray = [...this.state.comments]
+      newArray.splice(newArray.indexOf(commentObj), 1, commentData)
       this.setState({
-        comments: [...this.state.comments, commentData]
-    })
-  )
+          comments: newArray
+      })
+  })
 }
+//! commentUpdateHandler... State breaks down on Post Container level
 
-  commentDestroyHandler = (commentObj) => {
+
+commentStateDestroyHandler = (commentObj) => {
 
   let targetId = commentObj.id
   let options = { method: "DELETE" }
@@ -189,13 +240,9 @@ commentUpdateHandler = (commentObj, descriptionObj) => {
   let foundIndex = newArray.findIndex(element => element.id === targetId)
   let splicedArray = newArray.splice(foundIndex, 1) 
   
-  fetch(`http://localhost:4000/comments/${targetId}`, options)
-  .then(response => response.json())
-  .then(commentData => console.log(commentData),
     this.setState({
       follows: newArray
     })
-  )
 }
 
 targetCommentHandler = (commentObj) => {
@@ -204,60 +251,55 @@ targetCommentHandler = (commentObj) => {
   })
 }
 
-replyUpdateHandler = (replyObj, descriptionObj) => {
-  
-  let targetId = replyObj.id
-  let options = { 
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      "Accepts": "application/json"
-      },
-      body: JSON.stringify({
-        user_id: this.state.current_user.id,
-        comment_id: replyObj.comment.id,
-        description: descriptionObj,
-        date: Date(Date.now())
-      })
-  }
+/// Replies for POST/PATCH/DESTROY ------------------------------------------------- ///
 
-  fetch(`http://localhost:4000/replies/${targetId}`, options)
-  .then(response => response.json())
-  .then(replyData => 
-      this.setState({
-        replies: [...this.state.replies, replyData]
-    })
-  )
+replyPostHandler = (replyObj) => {
+  this.setState({
+  comments: [replyObj,...this.state.comments]
+  })
+  //? fetch lives in component/forms/ReplyForm !!!
 }
 
-replyDestroyHandler = (replyObj) => {
+replyStateUpdateHandler = (replyArray) => {
 
-  let targetId = replyObj.id
-  let options = { method: "DELETE" }
-  let newArray = [...this.state.replies]
-  let foundIndex = newArray.findIndex(element => element.id === targetId)
-  let splicedArray = newArray.splice(foundIndex, 1) 
-  
-  fetch(`http://localhost:4000/replies/${targetId}`, options)
-  .then(response => response.json())
-  .then(replyData => console.log(replyData),
-    this.setState({
-      replies: newArray
-    })
-  )
+  this.setState({
+    replies: replyArray
+  })
 }
+
+replyStateDestroyHandler = (newArray) => {
+  
+  this.setState({
+    replies: newArray
+  })
+}  
+
+// replyDestroyHandler = (replyObj) => {
+
+//   let targetId = replyObj.id
+//   let options = { method: "DELETE" }
+//   let newArray = [...this.state.replies]
+//   let foundIndex = newArray.findIndex(element => element.id === targetId)
+//   let splicedArray = newArray.splice(foundIndex, 1) 
+  
+//   fetch(`http://localhost:4000/replies/${targetId}`, options)
+//   .then(response => response.json())
+//   .then(replyData => console.log(replyData),
+//     this.setState({
+//       replies: newArray
+//     })
+//   )
+// }
 
   render() {
-    console.log(this.state.targetPost)
-    console.log(this.state.replies)
-    
-  return (
-    <>
-        <HeaderComp/>
-    <div className="App">
+    console.log("APP.JS:",this.state.comments)
+    return (
+      <>
+        <HeaderComp resetHandler={this.resetHandler}/>
+      <div className="App">
        <Switch>
          <Route exact path="/" render={()=> 
-          <Login/>}/>
+          <Login loginFetch={this.loginFetch}/>}/>
 
          <Route exact path="/profile/:id" render={() => 
            <PostContainer
@@ -266,28 +308,33 @@ replyDestroyHandler = (replyObj) => {
            replies={this.state.replies}
            user={this.state.current_user}
            commentUpdateHandler={this.commentUpdateHandler}
-           commentDestroyHandler={this.commentDestroyHandler}
+           commentStateDestroyHandler={this.commentStateDestroyHandler}
+           commentStatePostHandler={this.commentStatePostHandler}
+           replyPostHandler={this.replyPostHandler}
            targetPost={this.state.targetPost}
            targetComment={this.state.targetComment}
            targetCommentHandler={this.targetCommentHandler}
-           replyUpdateHandler={this.replyUpdateHandler}
-           replyDestroyHandler={this.replyDestroyHandler}
+           replyStateUpdateHandler={this.replyStateUpdateHandler}
+           replyStateDestroyHandler={this.replyStateDestroyHandler}
            />}/> 
-
 
          <Route exact path="/profile" render={() => 
            <Profile
            comments={this.state.comments}
+           likes={this.state.likes} 
            posts={this.state.posts}
            replies={this.state.replies}
            user={this.state.current_user}
            commentUpdateHandler={this.commentUpdateHandler}
            commentDestroyHandler={this.commentDestroyHandler}
+           likePostHandler={this.likePostHandler}
+           likeDestroyHandler={this.likeDestroyHandler}
            targetPost={this.state.targetPost}
            targetComment={this.state.targetComment}
            targetCommentHandler={this.targetCommentHandler}
            replyUpdateHandler={this.replyUpdateHandler}
            replyDestroyHandler={this.replyDestroyHandler}
+           patchHandler={this.targetPostHandler}
            />}/> 
 
         <Route exact path="/home" render={() => 
@@ -302,10 +349,8 @@ replyDestroyHandler = (replyObj) => {
           posts={this.state.posts}
           targetPostHandler={this.targetPostHandler}
           user={this.state.current_user} 
-          users={this.state.users} 
           />}/>
             
-
           <Route exact path="/nav" render={() => 
             <Nav
             follows={this.state.follows}
@@ -324,11 +369,6 @@ replyDestroyHandler = (replyObj) => {
                         replyPostHandler={this.replyPostHandler}
                         user={this.state.current_user}
             />}/>
-          <Route exact path="post/:id/comment" render={()=>  
-            <CommentForm 
-              targetPost={this.state.targetPost}
-              current_user={this.state.current_user}
-               />}/>
           
           <Route exact path="/settings" render={() => 
             <Settings 
@@ -342,8 +382,6 @@ replyDestroyHandler = (replyObj) => {
             <PatchForm 
             current_user={this.state.current_user} 
             patchId={this.state.postPatch}/>}/>
-
-          {/* <Route exact path="/dm" render={}/> */}
     
       </Switch>        
     </div>
@@ -352,4 +390,4 @@ replyDestroyHandler = (replyObj) => {
   }
 }
 
-export default App;
+export default withRouter(App);

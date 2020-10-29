@@ -2,52 +2,28 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Button, Form, Icon } from 'semantic-ui-react'
 
-
 class CommentForm extends React.Component {
 
-state = {
-    comment: "",
-    targetPost: this.props.targetPost
-}
+    state = {
+        comment: "",
+    }
 
-changeHandler = (event) => {
-    
-    this.setState({
-        comment: event.target.value
-    })
-}
-
-submitHandler = (event) => {
-    let target = event.target.value
-    console.log(target)
-    console.log(this.state.comment)
-    event.preventDefault()
-    
-    let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accepts": "application/json"
-        },
-        body: JSON.stringify({
-        user_id: this.state.current_user,
-        post_id: this.state.targetPost.id,
-        description: this.state.comment,
-        date: Date(Date.now())
-        })
-      }
-  
-    fetch(`http://localhost:4000/comments`, options)
-    .then(response => response.json())
-    .then(commentObj => 
+    changeHandler = (event) => {     
         this.setState({
-            comment: ""
+            comment: event.target.value
         })
-    )
-}
+    }
+
+    submitHandler = (event) => {
+        event.preventDefault()
+        this.props.commentPostHandler(this.state.comment)        
+        this.setState({
+            comment: ''
+        })
+    }
 
     render() {
-        
+   
         return (
             <div className="comment-form-div">
             <Form onSubmit={this.submitHandler}>

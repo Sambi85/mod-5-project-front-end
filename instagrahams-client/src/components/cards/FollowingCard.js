@@ -7,7 +7,8 @@ import { Button, Card, Icon, Image } from 'semantic-ui-react'
 class FollowingCard extends React.Component {
 
     state = {
-        likeButton: false
+        likeButton: false,
+        targetPost: this.props.data
     }
 
     likeButtonText = (event) => {
@@ -38,14 +39,13 @@ class FollowingCard extends React.Component {
     }
 
     clickListener = (event) => {
-       
-        let photoId = this.props.data.id
-        this.props.targetPostHandler(this.props.data)
+         
+       let photoId = this.props.data.id
+        this.props.targetPostHandler(this.state.targetPost)
         this.props.history.push(`/profile/${photoId}`)
     }
     
     render() {
-        console.log(this.props.user)
         
         return (
             <Card>
@@ -63,9 +63,6 @@ class FollowingCard extends React.Component {
                 </div>
                 <div>
                     <Icon name='comment outline'/>comments: {this.props.data.comments.length}
-                </div>
-                <div className="comments-div">
-                    <CommentForm/>
                 </div>
             </Card.Content>
             </Card>

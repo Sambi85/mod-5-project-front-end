@@ -52,10 +52,9 @@ class ProfileCard extends React.Component {
             this.setState({ likeButton: !this.state.likeButton})
         
         } else if (this.state.likeButton === true) {
-     
+            
             let matchingLikes = this.props.likes.filter(element => element.post.id === this.props.post.id)
             let userLike = matchingLikes.filter(element => element.user.id === this.props.user.id)
-                
             this.props.likeDestroyHandler(userLike)
                 this.setState({ 
                     likeButton: !this.state.likeButton
@@ -64,7 +63,7 @@ class ProfileCard extends React.Component {
     }
         
     render() {
-        
+        console.log("profile card likes:",this.props.likes)
         return (
     
             <Card>
