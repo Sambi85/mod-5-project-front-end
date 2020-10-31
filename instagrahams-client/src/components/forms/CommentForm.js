@@ -5,20 +5,21 @@ import { Button, Form, Icon } from 'semantic-ui-react'
 class CommentForm extends React.Component {
 
     state = {
-        comment: "",
+        description: ""
     }
+
 
     changeHandler = (event) => {     
         this.setState({
-            comment: event.target.value
+            description: event.target.value
         })
     }
 
     submitHandler = (event) => {
         event.preventDefault()
-        this.props.commentPostHandler(this.state.comment)        
+        this.props.commentPostHandler(this.state.description)        
         this.setState({
-            comment: ''
+            description: ''
         })
     }
 
@@ -28,7 +29,7 @@ class CommentForm extends React.Component {
             <div className="comment-form-div">
             <Form onSubmit={this.submitHandler}>
                 <Form.Field>
-                <input name="comment" value={this.state.comment} placeholder="Leave a Comment" onChange={this.changeHandler}/>
+                <input name="description" value={this.state.description} placeholder="Leave a Comment" onChange={this.changeHandler}/>
                 <Button inverted color='blue'>Post</Button>
                 </Form.Field>
             </Form>

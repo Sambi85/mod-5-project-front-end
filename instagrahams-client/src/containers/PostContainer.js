@@ -20,8 +20,8 @@ class PostContainer extends React.Component {
         })
     }
 
-commentPostHandler = (commentObj) => {
-        console.log("commentObj:", commentObj)
+commentPostHandler = (descriptionObj) => {
+        console.log("DESCRIPTION IN FUNCTION:",descriptionObj)
     let options = {
      method: "POST",
      headers: {
@@ -31,18 +31,21 @@ commentPostHandler = (commentObj) => {
      body: JSON.stringify({
      user_id: this.props.user.id,
      post_id: this.state.targetPost.id,
-     description: commentObj,
+     description: descriptionObj,
      date: Date(Date.now())
      })
    }
  
    fetch(`http://localhost:4000/comments`, options)
    .then(response => response.json())
-   .then(commentObj => 
-     this.setState({
-       comments: [commentObj,...this.state.comments]
-     }))
-     this.props.commentStatePostHandler(this.state.comments)
+   .then(commentData => { 
+    console.log("COMMENT OBJ:",commentData)
+    let newArray = [commentData, ...this.state.comments]
+    this.props.commentStatePostHandler(newArray)
+    this.setState({
+        comments: newArray
+    })
+    })
  }
 
 commentDestroyHandler = (commentObj) => {
@@ -63,6 +66,33 @@ commentDestroyHandler = (commentObj) => {
     this.props.commentStateDestroyHandler(commentObj)
   }
 
+  commentUpdateHandler = (descriptionObj, commentObj) => {
+    console.log("desciption:",descriptionObj)
+    console.log("commentObj:",commentObj.id)
+    let targetId = commentObj.id
+    let options = { 
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+        },
+        body: JSON.stringify({
+        user_id: this.props.user.id,
+        post_id: commentObj.post.id,
+        description: descriptionObj,
+        date: Date(Date.now())
+        })
+    }
+    let newArray = [...this.state.comments]
+    this.props.commentStateUpdateHandler(newArray)
+
+    fetch(`http://localhost:4000/comments/${targetId}`, options)
+    .then(response => response.json())
+    .then(commentData => {    
+        newArray.splice(newArray.indexOf(commentObj), 1, commentData)
+    })
+  }
+
 commentsIterator = () => {
     return this.state.comments.map(element => 
         <CommentCard 
@@ -71,7 +101,7 @@ commentsIterator = () => {
             comments={this.state.comments}
             user={this.props.user}
             replies={this.state.replies}
-            commentUpdateHandler={this.props.commentUpdateHandler}
+            commentUpdateHandler={this.commentUpdateHandler}
             commentDestroyHandler={this.commentDestroyHandler}
             replyStateUpdateHandler={this.props.replyStateUpdateHandler}
             replyStateDestroyHandler={this.props.replyStateDestroyHandler}
@@ -82,7 +112,7 @@ commentsIterator = () => {
 }
 
     render() {
-        console.log("POST CONTAINER:",this.state.comments)
+        
         return (
             <>
             <div className="post-header-div">

@@ -96,11 +96,10 @@ class CommentCard extends React.Component {
 
     submitHandler = (event) => {
         event.preventDefault()
-        // this.setState({
-        //     description: event.target.value
-        // })
-        this.props.commentUpdateHandler(this.state.description, this.state.comment)
-        
+        let descriptionText = event.target.value
+        console.log(this.state.description)
+        console.log(this.state.comment)
+        this.props.commentUpdateHandler(this.state.description, this.state.comment)     
         this.setState({
             description: ""
         })

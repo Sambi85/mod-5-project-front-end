@@ -99,31 +99,11 @@ class App extends React.Component {
 
   /// Likes for POST/DESTROY ------------------------------------------------- ///
 
-  likePostHandler = (postObj) => {
-    console.log("PostObj:",postObj)
-    console.log("current user id:",this.state.current_user.id)
-        let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accepts": "application/json"
-        },
-        body: JSON.stringify({
-        post_id: postObj,
-        user_id: this.state.current_user.id,
-        counter: 1,
-        date: Date(Date.now())
-        })
-      }
-
-    fetch(`http://localhost:4000/likes`, options)
-    .then(response => response.json())
-    .then(likeObj =>
-        this.setState({
-          likes: [likeObj,...this.state.likes]
-      })
-    )
-}
+  likeStatePostHandler = (likesArray) => {
+    this.setState({
+      likes: likesArray
+    })
+  }
 
 likeDestroyHandler = (likeObj) => {
   
@@ -194,43 +174,20 @@ targetPostHandler = (postObj) => {
   })
 }
 /// Comments for POST/ UPDATE/ DESTROY/TARGETCOMMENT ------------------------------------------------- ///
-commentStatePostHandler = (commentObj) => {
+
+commentStatePostHandler = (commentArray) => {
   this.setState({
-    comments: [commentObj, ...this.state.comments]
+    comments: commentArray
   })
 }
 
-commentUpdateHandler = (descriptionObj, commentObj) => {
-  console.log("desciption:",descriptionObj)
-  console.log("commentObj:",commentObj.id)
-  let targetId = commentObj.id
-  let options = { 
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      "Accepts": "application/json"
-      },
-      body: JSON.stringify({
-      user_id: this.state.current_user.id,
-      post_id: commentObj.post.id,
-      description: descriptionObj,
-      date: Date(Date.now())
-      })
-  }
-  
-  fetch(`http://localhost:4000/comments/${targetId}`, options)
-  .then(response => response.json())
-  .then(commentData => {
-      
-      let newArray = [...this.state.comments]
-      newArray.splice(newArray.indexOf(commentObj), 1, commentData)
-      this.setState({
-          comments: newArray
-      })
+commentStateUpdateHandler = (commentArray) => {
+  this.setState({
+    comments: commentArray
   })
 }
-//! commentUpdateHandler... State breaks down on Post Container level
 
+//! commentStateUpdateHandler--> DELAY IN STATE 
 
 commentStateDestroyHandler = (commentObj) => {
 
@@ -292,7 +249,7 @@ replyStateDestroyHandler = (newArray) => {
 // }
 
   render() {
-    console.log("APP.JS:",this.state.comments)
+    
     return (
       <>
         <HeaderComp resetHandler={this.resetHandler}/>
@@ -307,7 +264,7 @@ replyStateDestroyHandler = (newArray) => {
            posts={this.state.posts}
            replies={this.state.replies}
            user={this.state.current_user}
-           commentUpdateHandler={this.commentUpdateHandler}
+           commentStateUpdateHandler={this.commentStateUpdateHandler}
            commentStateDestroyHandler={this.commentStateDestroyHandler}
            commentStatePostHandler={this.commentStatePostHandler}
            replyPostHandler={this.replyPostHandler}
@@ -354,14 +311,14 @@ replyStateDestroyHandler = (newArray) => {
           <Route exact path="/nav" render={() => 
             <Nav
             follows={this.state.follows}
+            likes={this.state.likes} 
+            posts={this.state.posts}
+            user={this.state.current_user}
             followDestroyHandler={this.followDestroyHandler}
             followPostHandler={this.followPostHandler}
-            likes={this.state.likes} 
             likeDestroyHandler={this.likeDestroyHandler}
-            likePostHandler={this.likePostHandler}
-            posts={this.state.posts}
+            likeStatePostHandler={this.likeStatePostHandler}
             targetPostHandler={this.targetPostHandler}
-            user={this.state.current_user}
             />}/>
           
           <Route exact path="/comment/:id/reply" render={()=> 

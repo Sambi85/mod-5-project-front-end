@@ -6,7 +6,10 @@ class NavCard extends React.Component {
 
     state = {
         likeButton: false,
-        followButton: false
+        followButton: false,
+    
+        // follows: this.props.follows,
+        // comments: this.props.comments
     }
 
     likeButtonText = (event) => {
@@ -20,10 +23,10 @@ class NavCard extends React.Component {
     }
                 
     likeHandler = () => {
-                    
+        this.setState({ likeButton: !this.state.likeButton})
+        
             if (this.state.likeButton === false) {
-                this.props.likePostHandler(this.props.post.id)                                
-                this.setState({ likeButton: !this.state.likeButton})
+                this.props.likePostHandler(this.props.post)                                
             
             } else if (this.state.likeButton === true) {
                 
@@ -54,11 +57,9 @@ class NavCard extends React.Component {
             this.setState({ followButton: !this.state.followButton})
                 
         } else if (this.state.followButton === true) {
-            console.log("this.props.follows:",this.props.follows)
+            
             let matchingFollows = this.props.follows.filter(element => element.follower.id === this.props.user.id)
-            console.log("matchhingFollows Variable:",matchingFollows)
             let userFollow = matchingFollows.filter(element => element.leader.id === this.props.post.user.id)
-            console.log("single followObj:",userFollow)
             
             this.props.followDestroyHandler(userFollow)
             this.setState({ followButton: !this.state.followButton })
@@ -68,12 +69,12 @@ class NavCard extends React.Component {
     clickListener = (event) => {
 
        let photoId = this.props.post.id
-    //    this.props.followPostHandler(this.props.post)
         this.props.targetPostHandler(this.props.post)
        this.props.history.push(`/profile/${photoId}`)
     }
 
-    render() {  
+    render() {
+        console.log(this.props.likes)
         return (
             <Card>
                 <Image onClick={this.clickListener} itemsPerRow={2} color='grey' src={this.props.post.img}  wrapped ui={false}/>
