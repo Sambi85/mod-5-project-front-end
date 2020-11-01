@@ -42,9 +42,7 @@ class Profile extends React.Component {
               let newArray = [likeObj,...this.props.likes]
               this.props.likeStatePostHandler(newArray)
               
-              this.setState({
-                  likes: newArray
-                })
+      x
             })
     }
 
